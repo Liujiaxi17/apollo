@@ -1,0 +1,3 @@
+SUBSYSTEM=="video4linux", SUBSYSTEMS=="usb", KERNELS=="8-2:1.0", MODE="0666", SYMLINK+="camera/front_12mm", OWNER="apollo", GROUP="apollo"
+SUBSYSTEM=="video4linux", SUBSYSTEMS=="usb", KERNELS=="6-2:1.0", MODE="0666", SYMLINK+="camera/front_6mm", OWNER="apollo", GROUP="apollo"
+SUBSYSTEM=="video4linux", SUBSYSTEMS=="usb", KERNELS=="10-2:1.0", MODE="0666", SYMLINK+="camera/front_6mm_2", OWNER="apollo", GROUP="apollo"
