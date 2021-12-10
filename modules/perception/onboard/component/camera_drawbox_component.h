@@ -36,20 +36,32 @@ class CameraDrawboxComponent : public apollo::cyber::Component<> {
   CameraDrawboxComponent& operator=(
       const CameraDrawboxComponent&) = delete;
  bool Init() override;
- void OnReceiveImage(const std::shared_ptr<apollo::drivers::Image>& in_message);
-void drawrect(const std::shared_ptr<apollo::perception::camera::CameraDebug> &debugmessage);
-private:
 
-std::shared_ptr<
-      apollo::cyber::Reader<apollo::perception::camera::CameraDebug>>
-      camera_debug_reader_;
-std::shared_ptr<
-      apollo::cyber::Reader<apollo::drivers::Image>>
-      image_reader_;
-std::shared_ptr<apollo::common::Point2D> top_left,low_right;
-cv::Mat image;
-int width=1920;
-int height=1080;
+private:
+      //message receiving
+      void OnReceiveImage(const std::shared_ptr<apollo::drivers::Image>& in_message);
+      void OnReceiveObstacle(const std::shared_ptr<apollo::perception::camera::CameraDebug> &debugmessage);
+
+      // draw rectangle
+      void DrawRect(const std::shared_ptr<apollo::perception::camera::CameraDebug> &debugmessage);
+
+      //Readers
+      std::shared_ptr<
+            apollo::cyber::Reader<apollo::perception::camera::CameraDebug>>
+            camera_debug_reader_;
+      std::shared_ptr<
+            apollo::cyber::Reader<apollo::drivers::Image>>
+            image_reader_;
+      
+      // std::shared_ptr<apollo::common::Point2D> top_left,low_right;
+      
+      // image 
+      cv::Mat image;
+      int width=1920;
+      int height=1080;
+
+      //flag for receiving image
+      bool image_received;
 };
 
 CYBER_REGISTER_COMPONENT(CameraDrawboxComponent);
