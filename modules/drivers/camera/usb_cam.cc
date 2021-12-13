@@ -246,6 +246,7 @@ bool UsbCam::poll(const CameraImagePtr& raw_image) {
 
   if (-1 == r) {
     if (EINTR == errno) {
+    AERROR << "EINTR false";
       return false;
     }
 
@@ -261,6 +262,7 @@ bool UsbCam::poll(const CameraImagePtr& raw_image) {
   int get_new_image = read_frame(raw_image);
 
   if (!get_new_image) {
+    AERROR << "new_image_get false ";
     return false;
   }
 

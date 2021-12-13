@@ -8,4 +8,10 @@ module_config {
       flag_file_path: "/apollo/modules/perception/production/conf/perception/perception_common.flag"
     }
   }
+  components {
+    class_name : "CameraDrawboxComponent"
+    config {
+      name: "CameraDrawboxComponent"
+    }
+  }
 }

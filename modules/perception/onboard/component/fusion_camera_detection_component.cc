@@ -637,9 +637,9 @@ int FusionCameraDetectionComponent::InternalProc(
   // ljx 
   // const double msg_timestamp =
   //     apollo::common::time::Clock::NowInSeconds() + timestamp_offset_ + 0.05;
-  std::cout<<std::to_string(apollo::common::time::Clock::NowInSeconds())<<std::endl;
-  std::cout<<"msg_timestamp_camera"<<msg_timestamp<<std::endl;
-  std::cout<<"offset_camera"<<timestamp_offset_<<std::endl;
+  // std::cout<<std::to_string(apollo::common::time::Clock::NowInSeconds())<<std::endl;
+  // std::cout<<"msg_timestamp_camera"<<msg_timestamp<<std::endl;
+  // std::cout<<"offset_camera"<<timestamp_offset_<<std::endl;
   const int frame_size = static_cast<int>(camera_frames_.size());
   camera::CameraFrame &camera_frame = camera_frames_[frame_id_ % frame_size];
 

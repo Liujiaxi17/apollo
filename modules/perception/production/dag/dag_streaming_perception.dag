@@ -11,7 +11,7 @@ module_config {
   components {
     class_name : "CameraDrawboxComponent"
     config {
-      name: "CameraDrawboxComponent"
+      name: "CamecrDrawboxComponent"
     }
   }
 }

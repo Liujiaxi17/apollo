@@ -35,10 +35,7 @@ bool CameraDrawboxComponent::Init()
                        [this]( const std::shared_ptr<apollo::drivers::Image>& in_message)
                        { OnReceiveImage(in_message);});
     
-    // top_left->set_x(0);
-    // top_left->set_x(0);
-    // low_right->set_x(0);
-    // low_right->set_x(0);
+    //initialize
     cv::Mat image(width,height,CV_8UC3);
     image_received = false;
     return true;
@@ -56,29 +53,29 @@ void CameraDrawboxComponent::OnReceiveObstacle(const std::shared_ptr<apollo::per
 
 void CameraDrawboxComponent::OnReceiveImage(const std::shared_ptr<apollo::drivers::Image>& in_message)
 {
-    image.data = (uint8_t *)(in_message->data().data());
+    cv::Mat image(in_message->height(),in_message->width(),CV_8UC3,const_cast<char*>(in_message->data().data()),in_message->step());
     image_received = true;
 }
 
 void CameraDrawboxComponent::DrawRect(const std::shared_ptr<apollo::perception::camera::CameraDebug> &debugmessage)
 {
-    cv::Point2f p0; 
-    cv::Point2f p1;
+    // corner points of rectangle
+    cv::Point p0;
+    cv::Point p1;
 
     for(repeatedobs::iterator it=debugmessage->camera_obstacle().begin();it!=debugmessage->camera_obstacle().end();it++)
     {
-        // top_left=&(it->upper_left());
-        // low_right=&(it->lower_right());
-        
-    p0.x = static_cast<float>(it->upper_left().x());
-    p0.y = static_cast<float>(it->upper_left().y());
-    p1.x = static_cast<float>(it->lower_right().x());
-    p1.y = static_cast<float>(it->lower_right().y());
-
+    // for each object, draw a rectangle
+    p0= cv::Point(it->upper_left().x(),it->upper_left().y());
+    p1= cv::Point(it->lower_right().x(),it->lower_right().y());
     cv::rectangle(image, p0, p1, cv::Scalar(0, 0, 255), 50 , 8);
-
     }
-    cv::imshow("image",image);
+
+    if(!image.empty()){
+        cv::imwrite("zwrrwz.png",image);
+        //TODO: imshow() does not work in apollo
+        cv::imshow("image",image);
+    }
 }
 
 } //onboard

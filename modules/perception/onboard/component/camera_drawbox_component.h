@@ -53,7 +53,6 @@ private:
             apollo::cyber::Reader<apollo::drivers::Image>>
             image_reader_;
       
-      // std::shared_ptr<apollo::common::Point2D> top_left,low_right;
       
       // image 
       cv::Mat image;
