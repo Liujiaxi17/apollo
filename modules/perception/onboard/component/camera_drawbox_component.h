@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include "cyber/base/concurrent_object_pool.h"
 
 #include "cyber/component/component.h"
 #include "modules/drivers/proto/sensor_image.pb.h"
@@ -26,6 +27,10 @@
 namespace apollo {
 namespace perception {
 namespace onboard {
+
+using apollo::cyber::base::CCObjectPool;
+
+
 class CameraDrawboxComponent : public apollo::cyber::Component<> {
  public:
   CameraDrawboxComponent()=default;
@@ -42,6 +47,9 @@ private:
       void OnReceiveImage(const std::shared_ptr<apollo::drivers::Image>& in_message);
       void OnReceiveObstacle(const std::shared_ptr<apollo::perception::camera::CameraDebug> &debugmessage);
 
+      std::shared_ptr<apollo::drivers::CompressedImage> output_image;
+      std::shared_ptr<CCObjectPool<apollo::drivers::CompressedImage>> image_pool_ = nullptr;
+
       // draw rectangle
       void DrawRect(const std::shared_ptr<apollo::perception::camera::CameraDebug> &debugmessage);
 
@@ -52,12 +60,17 @@ private:
       std::shared_ptr<
             apollo::cyber::Reader<apollo::drivers::Image>>
             image_reader_;
-      
+      std::shared_ptr<
+            apollo::cyber::Writer<apollo::drivers::CompressedImage>>
+            box_writer_;
       
       // image 
       cv::Mat image;
       int width=1920;
       int height=1080;
+
+      // colors of box
+      std::vector<cv::Scalar> colors;
 
       //flag for receiving image
       bool image_received;

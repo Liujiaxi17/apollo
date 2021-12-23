@@ -31,7 +31,7 @@ message FusionCameraDetection {
   optional string calib_service_name = 17
       [default = "OnlineCalibrationService"];
   optional bool run_calib_service = 18 [default = true];
-  optional bool output_camera_debug_msg = 19 [default = false];
+  optional bool output_camera_debug_msg = 19 [default = true];
   optional string camera_debug_channel_name = 20
       [default = "/perception/camera_debug"];
   optional double ts_diff = 21 [default = 0.1];
