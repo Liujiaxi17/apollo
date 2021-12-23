@@ -375,6 +375,8 @@ int FusionCameraDetectionComponent::InitConfig() {
   debug_level_ = static_cast<int>(fusion_camera_detection_param.debug_level());
   enable_cipv_ = fusion_camera_detection_param.enable_cipv();
 
+  local_run = fusion_camera_detection_param.local_run();
+
   std::string format_str = R"(
       FusionCameraDetectionComponent InitConfig success
       camera_names:    %s, %s
@@ -654,20 +656,23 @@ int FusionCameraDetectionComponent::InternalProc(
   // Get sensor to world pose from TF
   Eigen::Affine3d camera2world_trans;
 
-     // ljx
+  if (local_run){
+    // ljx
     Eigen::Translation3d temp_trans(0,0,0);
     Eigen::Quaterniond temp_q(0,0,0,1);
     camera2world_trans = temp_trans * temp_q.toRotationMatrix();
-  // if (!camera2world_trans_wrapper_map_[camera_name]->GetSensor2worldTrans(
-          // msg_timestamp, &camera2world_trans)) {
-    // const std::string err_str =
-    //     absl::StrCat("failed to get camera to world pose, ts: ", msg_timestamp,
-    //                  " camera_name: ", camera_name);
-    // AERROR << err_str;
-    // *error_code = apollo::common::ErrorCode::PERCEPTION_ERROR_TF;
-    // prefused_message->error_code_ = *error_code;
-    // return cyber::FAIL;
-  // }
+  }  else  {   
+    if (!camera2world_trans_wrapper_map_[camera_name]->GetSensor2worldTrans(
+            msg_timestamp, &camera2world_trans)) {
+      const std::string err_str =
+          absl::StrCat("failed to get camera to world pose, ts: ", msg_timestamp,
+                      " camera_name: ", camera_name);
+      AERROR << err_str;
+      *error_code = apollo::common::ErrorCode::PERCEPTION_ERROR_TF;
+      prefused_message->error_code_ = *error_code;
+      return cyber::FAIL;
+    }
+  }
 
   Eigen::Affine3d world2camera = camera2world_trans.inverse();
 

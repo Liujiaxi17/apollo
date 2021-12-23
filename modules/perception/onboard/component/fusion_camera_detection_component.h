@@ -174,6 +174,8 @@ class FusionCameraDetectionComponent : public apollo::cyber::Component<> {
   bool output_camera_debug_msg_ = false;
   std::string camera_debug_channel_name_;
 
+  bool local_run = false;
+
   Eigen::Matrix3d project_matrix_;
   double pitch_diff_ = 0.0;
 

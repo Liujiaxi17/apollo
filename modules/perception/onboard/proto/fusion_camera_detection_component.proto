@@ -47,4 +47,5 @@ message FusionCameraDetection {
   optional int32 debug_level = 31 [default = 0];
   optional bool enable_cipv = 32 [default = false];
   optional string lidar_type_name = 33 [default = "velodyne128"];
+  optional bool local_run = 34 [default = false];
 }
